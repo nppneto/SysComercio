@@ -287,8 +287,6 @@ namespace CamadaDados
 
                 // quando precisar guardar informações de consulta e exibir em tabelas
                 // listbox, use um DataAdapter
-                SqlDataAdapter SqlData = new SqlDataAdapter(SqlCmd);
-                SqlData.Fill(DtResultado);
 
                 SqlParameter ParTextoBuscar = new SqlParameter();
                 ParTextoBuscar.ParameterName = "@textobuscar";
@@ -296,6 +294,9 @@ namespace CamadaDados
                 ParTextoBuscar.Size = 50;
                 ParTextoBuscar.Value = Categoria.TextoBuscar;
                 SqlCmd.Parameters.Add(ParTextoBuscar);
+
+                SqlDataAdapter SqlData = new SqlDataAdapter(SqlCmd);
+                SqlData.Fill(DtResultado);
 
             }
             catch (Exception)
