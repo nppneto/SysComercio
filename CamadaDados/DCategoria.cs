@@ -102,7 +102,7 @@ namespace CamadaDados
                 ParIdcategoria.ParameterName = "@idcategoria";
                 ParIdcategoria.SqlDbType = SqlDbType.Int;
                 ParIdcategoria.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(Idcategoria);
+                SqlCmd.Parameters.Add(ParIdcategoria);
 
                 SqlParameter ParNome = new SqlParameter();
                 ParNome.ParameterName = "@nome";
@@ -120,7 +120,7 @@ namespace CamadaDados
 
                 // Executar o comando
 
-                resp = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "Registro não foi inserido";
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "Registro não foi inserido";
 
             }
             catch(Exception ex)
