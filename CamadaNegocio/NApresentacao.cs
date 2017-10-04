@@ -8,13 +8,12 @@ using System.Data;
 
 namespace CamadaNegocio
 {
-    public class NCategoria
+    public class NApresentacao
     {
-
         // Método Inserir
         public static string Inserir(string nome, string descricao)
         {
-            DCategoria Obj = new CamadaDados.DCategoria();
+            DApresentacao Obj = new CamadaDados.DApresentacao();
             Obj.Nome = nome;
             Obj.Descricao = descricao;
 
@@ -22,10 +21,10 @@ namespace CamadaNegocio
         }
 
         // Método Editar
-        public static string Editar(int idcategoria, string nome, string descricao)
+        public static string Editar(int idapresentacao, string nome, string descricao)
         {
-            DCategoria Obj = new CamadaDados.DCategoria();
-            Obj.Idcategoria = idcategoria;
+            DApresentacao Obj = new CamadaDados.DApresentacao();
+            Obj.Idapresentacao = idapresentacao;
             Obj.Nome = nome;
             Obj.Descricao = descricao;
 
@@ -33,10 +32,10 @@ namespace CamadaNegocio
         }
 
         // Método Excluir
-        public static string Excluir(int idcategoria)
+        public static string Excluir(int idapresentacao)
         {
-            DCategoria Obj = new CamadaDados.DCategoria();
-            Obj.Idcategoria = idcategoria;
+            DApresentacao Obj = new CamadaDados.DApresentacao();
+            Obj.Idapresentacao = idapresentacao;
 
             return Obj.Excluir(Obj);
         }
@@ -44,13 +43,13 @@ namespace CamadaNegocio
         // Método Consultar
         public static DataTable Consultar()
         {
-            return new DCategoria().Consultar();
+            return new DApresentacao().Consultar();
         }
 
         // Método Buscar Nome
         public static DataTable ConsultarPorNome(string textobuscar)
         {
-            DCategoria Obj = new CamadaDados.DCategoria();
+            DApresentacao Obj = new CamadaDados.DApresentacao();
             Obj.TextoBuscar = textobuscar;
 
             return Obj.ConsultarPorNome(Obj);

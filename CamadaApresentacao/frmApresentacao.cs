@@ -11,16 +11,16 @@ using CamadaNegocio;
 
 namespace CamadaApresentacao
 {
-    public partial class frmCategoria : Form
+    public partial class frmApresentacao : Form
     {
 
         private bool Novo = false;
         private bool Editar = false;
 
-        public frmCategoria()
+        public frmApresentacao()
         {
             InitializeComponent();
-            this.ttMensagem.SetToolTip(this.txtNome, "Insira o nome da Categoria!");
+            this.ttMensagem.SetToolTip(this.txtNome, "Insira o nome da Apresentação!");
         }
 
         // Mostrar mensagem de confirmação
@@ -54,7 +54,7 @@ namespace CamadaApresentacao
         // Habilitar os botões
         private void HabilitarButton()
         {
-            if(this.Novo || this.Editar)
+            if (this.Novo || this.Editar)
             {
                 this.HabilitarTextBox(true);
                 this.btnNovo.Enabled = false;
@@ -72,7 +72,6 @@ namespace CamadaApresentacao
             }
         }
 
-        // Ocultar colunas do grid
         private void OcultarColunas()
         {
             this.dataLista.Columns[0].Visible = false;
@@ -82,7 +81,7 @@ namespace CamadaApresentacao
         // Mostrar no Data Grid
         private void Consultar()
         {
-            this.dataLista.DataSource = NCategoria.Consultar();
+            this.dataLista.DataSource = NApresentacao.Consultar();
             // para não mostrar as duas primeiras colunas
             this.OcultarColunas();
             // label para mostrar o total de registros
@@ -91,24 +90,14 @@ namespace CamadaApresentacao
 
         private void ConsultarPorNome()
         {
-            this.dataLista.DataSource = NCategoria.ConsultarPorNome(this.txtBuscar.Text);
+            this.dataLista.DataSource = NApresentacao.ConsultarPorNome(this.txtBuscar.Text);
             // para não mostrar as duas primeiras colunas
             this.OcultarColunas();
             // label para mostrar o total de registros
             lblTotal.Text = "Total de Registros: " + dataLista.Rows.Count.ToString(); // ou convert.tostring(datalista.rows.count);
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void frmCategoria_Load(object sender, EventArgs e)
+        private void frmApresentacao_Load(object sender, EventArgs e)
         {
             this.Top = 0;
             this.Left = 0;
@@ -144,28 +133,28 @@ namespace CamadaApresentacao
             {
                 string resp = "";
 
-                if(txtNome.Text == string.Empty)
+                if (txtNome.Text == string.Empty)
                 {
                     MensagemErro("Preencha todos os campos...");
                     errorIcone.SetError(txtNome, "Insira o nome!");
                 }
                 else
                 {
-                    if(this.Novo)
+                    if (this.Novo)
                     {
                         // Trim ignora espaços vazios existentes na caixa de texto
-                        resp = NCategoria.Inserir(txtNome.Text.Trim().ToUpper(), txtDescricao.Text.Trim());
+                        resp = NApresentacao.Inserir(txtNome.Text.Trim().ToUpper(), txtDescricao.Text.Trim());
                     }
                     else
                     {
-                        resp = NCategoria.Editar(Convert.ToInt32(this.txtIdCategoria.Text), 
-                            this.txtNome.Text.Trim().ToUpper(), 
+                        resp = NApresentacao.Editar(Convert.ToInt32(this.txtIdCategoria.Text),
+                            this.txtNome.Text.Trim().ToUpper(),
                             this.txtDescricao.Text.Trim());
                     }
 
-                    if(resp.Equals("OK"))
+                    if (resp.Equals("OK"))
                     {
-                        if(this.Novo)
+                        if (this.Novo)
                         {
                             this.MensagemOk("Registro efetuado com sucesso!");
                         }
@@ -186,7 +175,7 @@ namespace CamadaApresentacao
                     this.Consultar();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
@@ -195,7 +184,7 @@ namespace CamadaApresentacao
         private void dataLista_DoubleClick(object sender, EventArgs e)
         {
             // trago para a caixa de texto a linha referente a célula id categoria... converto para string pois caixa de texto pois o valor de retorno é objeto
-            this.txtIdCategoria.Text = this.dataLista.CurrentRow.Cells["idcategoria"].Value.ToString();
+            this.txtIdCategoria.Text = this.dataLista.CurrentRow.Cells["idapresentacao"].Value.ToString();
             this.txtNome.Text = this.dataLista.CurrentRow.Cells["nome"].Value.ToString();
             this.txtDescricao.Text = this.dataLista.CurrentRow.Cells["descricao"].Value.ToString();
             // após trazer os resultados, aponto para a tab de configurações -> 0 = listar -> 1 = configurações
@@ -204,7 +193,7 @@ namespace CamadaApresentacao
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if(txtIdCategoria.Text.Equals(""))
+            if (txtIdCategoria.Text.Equals(""))
             {
                 this.MensagemErro("Selecione um registro para inserir.");
             }
@@ -228,7 +217,7 @@ namespace CamadaApresentacao
 
         private void chkDeletar_CheckedChanged(object sender, EventArgs e)
         {
-            if(chkDeletar.Checked)
+            if (chkDeletar.Checked)
             {
                 // coluna com id fica visível.
                 this.dataLista.Columns[0].Visible = true;
@@ -242,7 +231,7 @@ namespace CamadaApresentacao
 
         private void dataLista_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex == dataLista.Columns["Deletar"].Index)
+            if (e.ColumnIndex == dataLista.Columns["Deletar"].Index)
             {
                 DataGridViewCheckBoxCell ChkDeletar = (DataGridViewCheckBoxCell)dataLista.Rows[e.RowIndex].Cells["Deletar"];
                 // quando for true, ele aparece... quando não for, ele apaga. A negativa é pra ele começar apagado.
@@ -258,7 +247,7 @@ namespace CamadaApresentacao
                 DialogResult opcao;
                 opcao = MessageBox.Show("Deseja apagar os registros? ", "Sistema Comércio", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(opcao == DialogResult.Yes)
+                if (opcao == DialogResult.Yes)
                 {
                     string codigo;
                     string resp = "";
@@ -266,12 +255,12 @@ namespace CamadaApresentacao
                     foreach (DataGridViewRow row in dataLista.Rows)
                     {
                         // se estiver marcado, eu quero que exclua.
-                        if(Convert.ToBoolean(row.Cells[0].Value))
+                        if (Convert.ToBoolean(row.Cells[0].Value))
                         {
                             // célula 1 = ID
                             codigo = Convert.ToString(row.Cells[1].Value);
                             // converto o ID recebido como string pela variavel código para int
-                            resp = NCategoria.Excluir(Convert.ToInt32(codigo));
+                            resp = NApresentacao.Excluir(Convert.ToInt32(codigo));
 
                             if (resp.Equals("OK"))
                             {
@@ -293,6 +282,11 @@ namespace CamadaApresentacao
             {
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

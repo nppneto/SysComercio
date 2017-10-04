@@ -8,25 +8,23 @@ using System.Data.SqlClient;
 
 namespace CamadaDados
 {
-    public class DCategoria
+    public class DApresentacao
     {
-        // propriedades
-        private int _Idcategoria;
+        private int _Idapresentacao;
         private string _Nome;
         private string _Descricao;
         private string _TextoBuscar;
 
-        // campos
-        public int Idcategoria
+        public int Idapresentacao
         {
             get
             {
-                return _Idcategoria;
+                return _Idapresentacao;
             }
 
             set
             {
-                _Idcategoria = value;
+                _Idapresentacao = value;
             }
         }
 
@@ -69,20 +67,17 @@ namespace CamadaDados
             }
         }
 
-        // Construtor Vazio
-        public DCategoria() { }
+        public DApresentacao() { }
 
-        // Construtor Carregado
-        public DCategoria(int idcategoria, string nome, string descricao, string textobuscar)
+        public DApresentacao(int idapresentacao, string nome, string descricao)
         {
-            this.Idcategoria = idcategoria;
+            this.Idapresentacao = idapresentacao;
             this.Nome = nome;
             this.Descricao = descricao;
-            this.TextoBuscar = textobuscar;
         }
 
         // Método Inserir
-        public string Inserir(DCategoria Categoria)
+        public string Inserir(DApresentacao Apresentacao)
         {
             string resp = "";
 
@@ -95,27 +90,27 @@ namespace CamadaDados
 
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "spinserir_categoria";
+                SqlCmd.CommandText = "spinserir_apresentacao";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter ParIdcategoria = new SqlParameter();
-                ParIdcategoria.ParameterName = "@idcategoria";
-                ParIdcategoria.SqlDbType = SqlDbType.Int;
-                ParIdcategoria.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdcategoria);
+                SqlParameter ParIdapresentacao = new SqlParameter();
+                ParIdapresentacao.ParameterName = "@idapresentacao";
+                ParIdapresentacao.SqlDbType = SqlDbType.Int;
+                ParIdapresentacao.Direction = ParameterDirection.Output;
+                SqlCmd.Parameters.Add(ParIdapresentacao);
 
                 SqlParameter ParNome = new SqlParameter();
                 ParNome.ParameterName = "@nome";
                 ParNome.SqlDbType = SqlDbType.VarChar;
                 ParNome.Size = 50;
-                ParNome.Value = Categoria.Nome;
+                ParNome.Value = Apresentacao.Nome;
                 SqlCmd.Parameters.Add(ParNome);
 
                 SqlParameter ParDescricao = new SqlParameter();
                 ParDescricao.ParameterName = "@descricao";
                 ParDescricao.SqlDbType = SqlDbType.VarChar;
-                ParDescricao.Size = 100;
-                ParDescricao.Value = Categoria.Descricao;
+                ParDescricao.Size = 50;
+                ParDescricao.Value = Apresentacao.Descricao;
                 SqlCmd.Parameters.Add(ParDescricao);
 
                 // Executar o comando
@@ -123,7 +118,7 @@ namespace CamadaDados
                 resp = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "Registro não foi inserido";
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // mensagem de erro
                 resp = ex.Message;
@@ -131,7 +126,7 @@ namespace CamadaDados
 
             finally
             {
-                if(SqlCon.State == ConnectionState.Open)
+                if (SqlCon.State == ConnectionState.Open)
                     SqlCon.Close();
             }
 
@@ -139,7 +134,7 @@ namespace CamadaDados
         }
 
         // Método Editar
-        public string Editar(DCategoria Categoria)
+        public string Editar(DApresentacao Apresentacao)
         {
             string resp = "";
 
@@ -152,27 +147,27 @@ namespace CamadaDados
 
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "speditar_categoria";
+                SqlCmd.CommandText = "speditar_apresentacao";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter ParIdcategoria = new SqlParameter();
-                ParIdcategoria.ParameterName = "@idcategoria";
-                ParIdcategoria.SqlDbType = SqlDbType.Int;
-                ParIdcategoria.Value = Categoria.Idcategoria;
-                SqlCmd.Parameters.Add(ParIdcategoria);
+                SqlParameter ParIdapresentacao = new SqlParameter();
+                ParIdapresentacao.ParameterName = "@idapresentacao";
+                ParIdapresentacao.SqlDbType = SqlDbType.Int;
+                ParIdapresentacao.Value = Apresentacao.Idapresentacao;
+                SqlCmd.Parameters.Add(ParIdapresentacao);
 
                 SqlParameter ParNome = new SqlParameter();
                 ParNome.ParameterName = "@nome";
                 ParNome.SqlDbType = SqlDbType.VarChar;
                 ParNome.Size = 50;
-                ParNome.Value = Categoria.Nome;
+                ParNome.Value = Apresentacao.Nome;
                 SqlCmd.Parameters.Add(ParNome);
 
                 SqlParameter ParDescricao = new SqlParameter();
                 ParDescricao.ParameterName = "@descricao";
                 ParDescricao.SqlDbType = SqlDbType.VarChar;
-                ParDescricao.Size = 100;
-                ParDescricao.Value = Categoria.Descricao;
+                ParDescricao.Size = 50;
+                ParDescricao.Value = Apresentacao.Descricao;
                 SqlCmd.Parameters.Add(ParDescricao);
 
                 // Executar o comando
@@ -195,7 +190,7 @@ namespace CamadaDados
         }
 
         // Método Excluir
-        public string Excluir(DCategoria Categoria)
+        public string Excluir(DApresentacao Apresentacao)
         {
             string resp = "";
 
@@ -208,14 +203,14 @@ namespace CamadaDados
 
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "spdeletar_categoria";
+                SqlCmd.CommandText = "spdeletar_apresentacao";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter ParIdcategoria = new SqlParameter();
-                ParIdcategoria.ParameterName = "@idcategoria";
-                ParIdcategoria.SqlDbType = SqlDbType.Int;
-                ParIdcategoria.Value = Categoria.Idcategoria;
-                SqlCmd.Parameters.Add(ParIdcategoria);
+                SqlParameter ParIdapresentacao = new SqlParameter();
+                ParIdapresentacao.ParameterName = "@idapresentacao";
+                ParIdapresentacao.SqlDbType = SqlDbType.Int;
+                ParIdapresentacao.Value = Apresentacao.Idapresentacao;
+                SqlCmd.Parameters.Add(ParIdapresentacao);
 
                 // Executar o comando
 
@@ -239,15 +234,15 @@ namespace CamadaDados
         // Método Consultar
         public DataTable Consultar()
         {
-            DataTable DtResultado = new DataTable("categoria");
+            DataTable DtResultado = new DataTable("apresentacao");
             SqlConnection SqlCon = new SqlConnection();
-            
+
             try
             {
                 SqlCon.ConnectionString = Conexao.con;
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "spconsultar_categoria";
+                SqlCmd.CommandText = "spconsultar_apresentacao";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
                 // quando precisar guardar informações de consulta e exibir em tabelas
@@ -256,7 +251,7 @@ namespace CamadaDados
                 SqlData.Fill(DtResultado);
 
             }
-            catch(Exception)
+            catch (Exception)
             {
                 DtResultado = null;
             }
@@ -271,10 +266,9 @@ namespace CamadaDados
 
         }
 
-        // Método Buscar Nome
-        public DataTable ConsultarPorNome(DCategoria Categoria)
+        public DataTable ConsultarPorNome(DApresentacao Apresentacao)
         {
-            DataTable DtResultado = new DataTable("categoria");
+            DataTable DtResultado = new DataTable("apresentacao");
             SqlConnection SqlCon = new SqlConnection();
 
             try
@@ -282,7 +276,7 @@ namespace CamadaDados
                 SqlCon.ConnectionString = Conexao.con;
                 SqlCommand SqlCmd = new SqlCommand();
                 SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "spconsultar_nome_categoria";
+                SqlCmd.CommandText = "spconsultar_nome_apresentacao";
                 SqlCmd.CommandType = CommandType.StoredProcedure;
 
                 // quando precisar guardar informações de consulta e exibir em tabelas
@@ -292,7 +286,7 @@ namespace CamadaDados
                 ParTextoBuscar.ParameterName = "@textobuscar";
                 ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
                 ParTextoBuscar.Size = 50;
-                ParTextoBuscar.Value = Categoria.TextoBuscar;
+                ParTextoBuscar.Value = Apresentacao.TextoBuscar;
                 SqlCmd.Parameters.Add(ParTextoBuscar);
 
                 SqlDataAdapter SqlData = new SqlDataAdapter(SqlCmd);
@@ -313,7 +307,6 @@ namespace CamadaDados
             return DtResultado;
 
         }
-
 
     }
 }
