@@ -159,7 +159,7 @@ namespace CamadaDados
                 ParIdcategoria.ParameterName = "@idcategoria";
                 ParIdcategoria.SqlDbType = SqlDbType.Int;
                 ParIdcategoria.Value = Categoria.Idcategoria;
-                SqlCmd.Parameters.Add(Idcategoria);
+                SqlCmd.Parameters.Add(ParIdcategoria);
 
                 SqlParameter ParNome = new SqlParameter();
                 ParNome.ParameterName = "@nome";
@@ -177,7 +177,7 @@ namespace CamadaDados
 
                 // Executar o comando
 
-                resp = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "A edição não foi concluída!";
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "A edição não foi concluída!";
 
             }
             catch (Exception ex)
@@ -215,11 +215,11 @@ namespace CamadaDados
                 ParIdcategoria.ParameterName = "@idcategoria";
                 ParIdcategoria.SqlDbType = SqlDbType.Int;
                 ParIdcategoria.Value = Categoria.Idcategoria;
-                SqlCmd.Parameters.Add(Idcategoria);
+                SqlCmd.Parameters.Add(ParIdcategoria);
 
                 // Executar o comando
 
-                resp = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "A exclusão não foi concluída!";
+                resp = SqlCmd.ExecuteNonQuery() == 1 ? "OK" : "A exclusão não foi concluída!";
 
             }
             catch (Exception ex)

@@ -191,5 +191,108 @@ namespace CamadaApresentacao
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
         }
+
+        private void dataLista_DoubleClick(object sender, EventArgs e)
+        {
+            // trago para a caixa de texto a linha referente a célula id categoria... converto para string pois caixa de texto pois o valor de retorno é objeto
+            this.txtIdCategoria.Text = this.dataLista.CurrentRow.Cells["idcategoria"].Value.ToString();
+            this.txtNome.Text = this.dataLista.CurrentRow.Cells["nome"].Value.ToString();
+            this.txtDescricao.Text = this.dataLista.CurrentRow.Cells["descricao"].Value.ToString();
+            // após trazer os resultados, aponto para a tab de configurações -> 0 = listar -> 1 = configurações
+            this.tabControl1.SelectedIndex = 1;
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            if(txtIdCategoria.Text.Equals(""))
+            {
+                this.MensagemErro("Selecione um registro para inserir.");
+            }
+            else
+            {
+                this.Editar = true;
+                this.HabilitarButton();
+                this.HabilitarTextBox(true);
+                this.txtIdCategoria.ReadOnly = true;
+            }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Novo = false;
+            this.Editar = false;
+            this.HabilitarButton();
+            this.HabilitarTextBox(false);
+            this.Limpar();
+        }
+
+        private void chkDeletar_CheckedChanged(object sender, EventArgs e)
+        {
+            if(chkDeletar.Checked)
+            {
+                // coluna com id fica visível.
+                this.dataLista.Columns[0].Visible = true;
+            }
+            else
+            {
+                // coluna com id fica invisível.
+                this.dataLista.Columns[0].Visible = false;
+            }
+        }
+
+        private void dataLista_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.ColumnIndex == dataLista.Columns["Deletar"].Index)
+            {
+                DataGridViewCheckBoxCell ChkDeletar = (DataGridViewCheckBoxCell)dataLista.Rows[e.RowIndex].Cells["Deletar"];
+                // quando for true, ele aparece... quando não for, ele apaga. A negativa é pra ele começar apagado.
+                ChkDeletar.Value = !Convert.ToBoolean(ChkDeletar.Value);
+            }
+        }
+
+        private void btnDeletar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // verificar uma caixa de diálogo
+                DialogResult opcao;
+                opcao = MessageBox.Show("Deseja apagar os registros? ", "Sistema Comércio", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if(opcao == DialogResult.Yes)
+                {
+                    string codigo;
+                    string resp = "";
+
+                    foreach (DataGridViewRow row in dataLista.Rows)
+                    {
+                        // se estiver marcado, eu quero que exclua.
+                        if(Convert.ToBoolean(row.Cells[0].Value))
+                        {
+                            // célula 1 = ID
+                            codigo = Convert.ToString(row.Cells[1].Value);
+                            // converto o ID recebido como string pela variavel código para int
+                            resp = NCategoria.Excluir(Convert.ToInt32(codigo));
+
+                            if (resp.Equals("OK"))
+                            {
+                                this.MensagemOk("Registro excluído com sucesso!");
+                            }
+                            else
+                            {
+                                this.MensagemErro(resp);
+                            }
+
+                        }
+                    }
+
+                    // se o registro for excluído, me mostre os dados atualizados no grid.
+                    this.Mostrar();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ex.StackTrace);
+            }
+        }
     }
 }

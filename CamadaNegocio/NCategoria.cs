@@ -33,12 +33,12 @@ namespace CamadaNegocio
         }
 
         // Método Excluir
-        public static string Exluir(int idcategoria)
+        public static string Excluir(int idcategoria)
         {
             DCategoria Obj = new CamadaDados.DCategoria();
             Obj.Idcategoria = idcategoria;
 
-            return Obj.Inserir(Obj);
+            return Obj.Excluir(Obj);
         }
 
         // Método Mostrar
